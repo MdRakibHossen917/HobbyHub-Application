@@ -1,29 +1,26 @@
-import React from "react";
-
-import { NavLink } from "react-router";
+import React, { useContext } from "react";
+import { LuLogOut } from "react-icons/lu";
+import { NavLink, useNavigate, useLocation } from "react-router";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const links = (
   <>
     <li>
       <NavLink to="/" className="flex items-center gap-0">
-        {/* <img
-          className="h-5 w-5"
-          src="https://img.icons8.com/?size=48&id=Eyy3nmHIbCL8&format=png"
-          alt="home icon"
-        /> */}
         <span>Home</span>
       </NavLink>
     </li>
     <li>
       <NavLink to="/createGroup" className="flex items-center gap-0">
         <span>
-          <span>
-            <img
-              className="h-5 w-5"
-              src="https://img.icons8.com/?size=80&id=95119&format=png"
-              alt=""
-            />
-          </span>
+          <img
+            className="h-5 w-5"
+            src="https://img.icons8.com/?size=80&id=95119&format=png"
+            alt=""
+          />
         </span>
         Create Group
       </NavLink>
@@ -56,6 +53,21 @@ const links = (
 );
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        Swal.fire("Sign-out Successful");
+        navigate("/auth/signIn");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="navbar-start">
@@ -68,13 +80,12 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />
             </svg>
           </div>
           <ul
@@ -85,33 +96,26 @@ const Navbar = () => {
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">
-          <img className="w-25" src="https://i.ibb.co/DDbQG6K2/logo-transparent.png" alt="" />
+          <img
+            className="w-25"
+            src="https://i.ibb.co/DDbQG6K2/logo-transparent.png"
+            alt=""
+          />
         </a>
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end gap-2">
-        <NavLink
-          to="/auth/login"
-          className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
-        >
-          LogIn
-        </NavLink>
-        <NavLink
-          to="/auth/register"
-          className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
-        >
-          SignUp
-        </NavLink>
 
+      <div className="navbar-end gap-3">
+        {/* Theme Toggle */}
         <label className="toggle text-base-content">
           <input
             type="checkbox"
             value="synthwave"
             className="theme-controller"
           />
-
           <svg
             aria-label="sun"
             xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +139,6 @@ const Navbar = () => {
               <path d="m19.07 4.93-1.41 1.41"></path>
             </g>
           </svg>
-
           <svg
             aria-label="moon"
             xmlns="http://www.w3.org/2000/svg"
@@ -152,6 +155,50 @@ const Navbar = () => {
             </g>
           </svg>
         </label>
+
+        {/* If user logged in */}
+        {user ? (
+          <>
+            {/* ✅ Profile Picture with Tooltip */}
+            <div>
+              <img
+                src={user.photoURL || "https://i.ibb.co/zfHd2GV/user.png"}
+                alt="user"
+                data-tooltip-id="user-tooltip"
+                data-tooltip-content={user.displayName || "User"}
+                className="w-10 h-10 rounded-full cursor-pointer border border-gray-400"
+              />
+              <Tooltip id="user-tooltip" place="right" />
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="btn btn-sm btn-primary flex items-center gap-1"
+            >
+              <LuLogOut />
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="/auth/login"
+              className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
+            >
+              LogIn
+            </NavLink>
+
+            {/* ✅ Show SignUp button only if not on login page */}
+            {pathname !== "/auth/login" && (
+              <NavLink
+                to="/auth/register"
+                className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
+              >
+                SignUp
+              </NavLink>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router"
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase.config";
- 
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { signIn } = useContext(AuthContext); // using context method
   //
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,12 +20,13 @@ const Login = () => {
       return;
     }
     // Step 2: Try login
-    signInWithEmailAndPassword(auth, email, password)
-      // Step 3: Successfully resolve than go to .then 
-      .then((userCredential) => {
-        const user = userCredential.user;
+    signIn(email, password)
+      // Step 3: Successfully resolve than go to .then
+      .then((result) => {
+        const user = result.user;
         console.log("Logged in user:", user);
-        alert("User login successfully!");
+        // alert("User login successfully!");
+         Swal.fire("LOGIN success");
         navigate("/");
       })
       .catch((error) => {
@@ -60,7 +61,7 @@ const Login = () => {
             </button>
             <button className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3">
               <FaGithub size={25} />
-              Login with GitHub  
+              Login with GitHub
             </button>
 
             <form onSubmit={handleLogin} className="fieldset">

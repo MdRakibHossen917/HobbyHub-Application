@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router";  
 import { updateProfile } from "firebase/auth";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { createUser } = useContext(AuthContext); // ✅ using context method
+  const { createUser } = useContext(AuthContext); // using context method
 
   const handlerRegister = (e) => {
     e.preventDefault();
@@ -56,7 +57,8 @@ const Register = () => {
           photoURL: photoURL,
         })
           .then(() => {
-            alert("User registered successfully!");
+            // alert("User registered successfully!");
+            Swal.fire("register success");
             navigate("/auth/login");
           })
           .catch((error) => {
