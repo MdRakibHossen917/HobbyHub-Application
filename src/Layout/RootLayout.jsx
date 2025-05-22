@@ -3,15 +3,18 @@ import Navbar from '../Components/Navbar/Navbar';
 import { Outlet } from 'react-router';
 import Footer from '../Components/Footer/Footer';
  
+ 
 
 const RootLayout = () => {
+    
     return (
-        <div>
-             <Navbar></Navbar>
-             <Outlet></Outlet>
-             <Footer></Footer>
-            
-        </div>
+      <div>
+        <Navbar></Navbar>
+        
+          <Outlet></Outlet>
+        
+        <Footer></Footer>
+      </div>
     );
 };
 

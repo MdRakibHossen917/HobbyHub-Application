@@ -1,27 +1,63 @@
 import React from "react";
- 
+
 import { NavLink } from "react-router";
 
 const links = (
   <>
     <li>
-      <NavLink to="/">Home</NavLink>
+      <NavLink to="/" className="flex items-center gap-0">
+        {/* <img
+          className="h-5 w-5"
+          src="https://img.icons8.com/?size=48&id=Eyy3nmHIbCL8&format=png"
+          alt="home icon"
+        /> */}
+        <span>Home</span>
+      </NavLink>
     </li>
     <li>
-      <NavLink to="/createGroup">Create Group</NavLink>
+      <NavLink to="/createGroup" className="flex items-center gap-0">
+        <span>
+          <span>
+            <img
+              className="h-5 w-5"
+              src="https://img.icons8.com/?size=80&id=95119&format=png"
+              alt=""
+            />
+          </span>
+        </span>
+        Create Group
+      </NavLink>
     </li>
     <li>
-      <NavLink to="/allGroups">My Groups</NavLink>
+      <NavLink to="/myGroups" className="flex items-center gap-0">
+        <span>
+          <img
+            className="h-5 w-5"
+            src="https://img.icons8.com/?size=80&id=97614&format=png"
+            alt=""
+          />
+        </span>
+        My Groups
+      </NavLink>
     </li>
     <li>
-      <NavLink to="/allGroups">All Groups</NavLink>
+      <NavLink to="/allGroups" className="flex items-center gap-0">
+        <span>
+          <img
+            className="h-5 w-5"
+            src="https://img.icons8.com/?size=50&id=9542&format=png"
+            alt=""
+          />
+        </span>
+        All Groups
+      </NavLink>
     </li>
   </>
 );
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-300 shadow-sm">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -48,7 +84,9 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">HobbyHub</a>
+        <a className="btn btn-ghost text-xl">
+          <img className="w-25" src="https://i.ibb.co/DDbQG6K2/logo-transparent.png" alt="" />
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
