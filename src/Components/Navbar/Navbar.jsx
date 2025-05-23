@@ -50,6 +50,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  
 
   // Theme toggle
   const [isDarkMode, setIsDarkMode] = useState(

@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { createUser } = useContext(AuthContext); // using context method
+  const { createUser } = useContext(AuthContext); 
 
   const handlerRegister = (e) => {
     e.preventDefault();

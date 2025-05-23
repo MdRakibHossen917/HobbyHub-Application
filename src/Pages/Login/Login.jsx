@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -9,14 +9,17 @@ import { auth } from "../../Firebase/Firebase.config";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { user, signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const { user, signIn, setLoading } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
+
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     if (user && user.email) {
-      navigate("/");
+      navigate(from, { replace: true }); // Sending to the previous page
     }
-  }, [user, navigate]);
+  }, [user, navigate, from]);
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
@@ -25,12 +28,11 @@ const Login = () => {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Your work has been saved",
+          title: "Google Login Successful",
           showConfirmButton: false,
-          timer: 1500
-        })
-        .then(() => {
-          navigate("/");
+          timer: 1500,
+        }).then(() => {
+          navigate(from, { replace: true }); // Sending to the previous page
         });
       })
       .catch((error) => {
@@ -51,7 +53,8 @@ const Login = () => {
     signIn(email, password)
       .then(() => {
         Swal.fire("Login Success", "", "success").then(() => {
-          navigate("/");
+          setLoading(false);
+          navigate(from, { replace: true }); // Sending to the previous page
         });
       })
       .catch((error) => {
@@ -76,14 +79,14 @@ const Login = () => {
                 Login to your Account
               </h2>
               <p className="text-gray-800">
-                Don't have an account?{" "}
+                Don't have an account?
                 <Link
-                                 to="/auth/register"
-                                 className="ml-1 text-blue-600 underline font-bold"
-                               >
-                                 Sign In
-                               </Link>{" "}
-                               here
+                  to="/auth/register"
+                  className="ml-1 text-blue-600 underline font-bold"
+                >
+                  Sign Up
+                </Link>
+                here
               </p>
             </div>
 
