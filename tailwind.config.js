@@ -7,3 +7,8 @@
 //   },
 //   plugins: [require("daisyui")],
 // };
+// tailwind.config.js
+module.exports = {
+    darkMode: 'class',
+    // ...rest
+  }

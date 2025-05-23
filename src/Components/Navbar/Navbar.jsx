@@ -6,41 +6,39 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
-
-// Navigation Links
 const links = (
   <>
     <li>
-      <NavLink to="/" className="flex items-center gap-0">
-        <span>Home</span>
+      <NavLink to="/" className="flex items-center gap-1">
+        Home
       </NavLink>
     </li>
     <li>
-      <NavLink to="/createGroup" className="flex items-center gap-0">
+      <NavLink to="/createGroup" className="flex items-center gap-1">
         <img
           className="h-5 w-5"
           src="https://img.icons8.com/?size=80&id=95119&format=png"
-          alt=""
+          alt="create"
         />
         Create Group
       </NavLink>
     </li>
     <li>
-      <NavLink to="/myGroups" className="flex items-center gap-0">
+      <NavLink to="/myGroups" className="flex items-center gap-1">
         <img
           className="h-5 w-5"
           src="https://img.icons8.com/?size=80&id=97614&format=png"
-          alt=""
+          alt="my"
         />
         My Groups
       </NavLink>
     </li>
     <li>
-      <NavLink to="/allGroups" className="flex items-center gap-0">
+      <NavLink to="/allGroups" className="flex items-center gap-1">
         <img
           className="h-5 w-5"
           src="https://img.icons8.com/?size=50&id=9542&format=png"
-          alt=""
+          alt="all"
         />
         All Groups
       </NavLink>
@@ -53,7 +51,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // Dark Mode
+  // Theme toggle
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
@@ -68,11 +66,11 @@ const Navbar = () => {
       localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
-//darkmode
+
   const handleLogout = () => {
     logOut()
       .then(() => {
-        Swal.fire("Sign-out Successful");
+        Swal.fire("Signed out successfully");
         navigate("/auth/login");
       })
       .catch((error) => {
@@ -82,6 +80,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar bg-base-300 shadow-sm">
+      {/* Navbar Start */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -102,7 +101,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             {links}
           </ul>
@@ -116,19 +115,21 @@ const Navbar = () => {
         </NavLink>
       </div>
 
+      {/* Navbar Center */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
 
+      {/* Navbar End */}
       <div className="navbar-end gap-3">
-        {/*  Theme Toggle */}
+        {/* Theme Toggle */}
         <label className="swap swap-rotate">
           <input
             type="checkbox"
             onChange={() => setIsDarkMode(!isDarkMode)}
             checked={isDarkMode}
           />
-          {/* Sun icon */}
+          {/* Light icon */}
           <svg
             className="swap-on w-6 h-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -137,10 +138,10 @@ const Navbar = () => {
             stroke="currentColor"
           >
             <path
-              d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414M17.95 17.95l-1.414-1.414M6.05 6.05L4.636 7.464"
-              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414M17.95 17.95l-1.414-1.414M6.05 6.05L4.636 7.464"
             />
             <circle
               cx="12"
@@ -151,24 +152,18 @@ const Navbar = () => {
               strokeLinejoin="round"
             />
           </svg>
-          {/* Moon icon */}
+          {/* Dark icon */}
           <svg
             className="swap-off w-6 h-6"
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+            fill="currentColor"
             viewBox="0 0 24 24"
-            stroke="currentColor"
           >
-            <path
-              d="M21 12.79A9 9 0 0112.21 3a7 7 0 000 14 9 9 0 008.79-4.21z"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+            <path d="M21.64,13a1,1,0,0,0-1.05-.14A8,8,0,0,1,12,4a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,11,1a10,10,0,1,0,10.05,12A1,1,0,0,0,21.64,13Z" />
           </svg>
         </label>
 
-        {/* ✅ User */}
+        {/* User Info or Login/Register */}
         {user ? (
           <>
             <img
@@ -183,8 +178,7 @@ const Navbar = () => {
               onClick={handleLogout}
               className="btn btn-sm btn-primary flex items-center gap-1"
             >
-              <LuLogOut />
-              Logout
+              <LuLogOut /> Logout
             </button>
           </>
         ) : (
@@ -193,14 +187,14 @@ const Navbar = () => {
               to="/auth/login"
               className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
             >
-              LogIn
+              Login
             </NavLink>
             {pathname !== "/auth/login" && (
               <NavLink
                 to="/auth/register"
                 className="hover:bg-gray-200 text-gray-700 px-4 py-2 rounded"
               >
-                SignUp
+                Sign Up
               </NavLink>
             )}
           </>

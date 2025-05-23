@@ -23,6 +23,7 @@ const MyGroups = () => {
         });
     }
   }, [user]);
+ console.log(myGroups)
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -59,17 +60,25 @@ const MyGroups = () => {
 
   if (myGroups.length === 0)
     return (
-      <div className="flex justify-center items-center min-h-[200px]">
-      <span className="loading loading-bars loading-xl"></span>
-    </div>
-   
+      <div className="flex flex-col items-center justify-center min-h-[300px] text-center  rounded-lg p-8 ">
+        <h2 className="text-2xl font-bold text-blue-700 mb-2">
+          No Groups Found
+        </h2>
+        <p className="text-lg text-black">This time you have no data.</p>
+        <p className="text-lg text-black">
+          So, create your group and get started!
+        </p>
+      </div>
     );
+  
+  
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <h2 className="text-2xl font-bold mb-4">My Created Groups</h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
+          {/* head */}
           <thead>
             <tr>
               <th>#</th>
@@ -79,13 +88,15 @@ const MyGroups = () => {
               <th>Actions</th>
             </tr>
           </thead>
+
+          {/* Table */}
           <tbody>
             {myGroups.map((group, index) => (
               <tr key={group._id}>
                 <td>{index + 1}</td>
                 <td>{group.groupName}</td>
-                <td>{group.hobbyCategory}</td>
-                <td>{group.startDate}</td>
+                <td>{group.category}</td>
+                <td>{group.formattedDate}</td>
                 <td className="space-x-2">
                   <Link to={`/updateGroup/${group._id}`}>
                     <button className="btn btn-sm btn-info">Update</button>
