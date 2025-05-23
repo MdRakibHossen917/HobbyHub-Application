@@ -1,76 +1,44 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router"; 
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../../Firebase/Firebase.config";
 
 const Login = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-
-  const { user, signIn } = useContext(AuthContext);
-  const provider = new GoogleAuthProvider();
-
-  useEffect(() => {
-    if (user && user.email) {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
-  // Google signIn
-  const handleGoogleSignIn = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log("Google login:", result.user);
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.error("Google login error:", error);
-      });
-  };
-
-  // Email/Password Login
+  const { signIn } = useContext(AuthContext); // using context method
+  //
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-
+    // Step 1: Check first
     if (!email || !password) {
-      Swal.fire("Please enter both email and password.");
+      alert("Please enter both email and password.");
       return;
     }
-
+    // Step 2: Try login
     signIn(email, password)
-      .then(() => {
-        Swal.fire("Login success").then(() => {
-          const from = location.state?.from?.pathname || "/";
-          navigate(from, { replace: true });
+      // Step 3: Successfully resolve than go to .then
+      .then((result) => {
+        const user = result.user;
+        console.log("Logged in user:", user);
+        // alert("User login successfully!");
+        //  Swal.fire("LOGIN success");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "User login successfully!",
+          showConfirmButton: false,
+          timer: 1500,
         });
+        navigate("/");
       })
       .catch((error) => {
-        Swal.fire({
-          title: "Login failed",
-          text: error.message,
-          icon: "error",
-          confirmButtonText: "Go to Register",
-        }).then(() => {
-          navigate("/auth/register");
-        });
+        console.log("Login error:", error.message);
       });
-  };
-
-  const handleSignUpClick = (e) => {
-    e.preventDefault();
-    if (!user || !user.email) {
-      navigate("/auth/register");
-    } else {
-      navigate("/");
-    }
   };
 
   return (
@@ -83,32 +51,22 @@ const Login = () => {
                 Login to your Account
               </h2>
               <p className="text-gray-800">
-                {!user || !user.email ? (
-                  <>
-                    Don't have an account? Please{" "}
-                    <Link
-                      to="/auth/register"
-                      className="text-blue-500 underline font-bold cursor-pointer"
-                      onClick={handleSignUpClick}
-                    >
-                      Sign Up
-                    </Link>{" "}
-                    here
-                  </>
-                ) : (
-                  <>Welcome back!</>
-                )}
+                Don't have account? Please{" "}
+                <Link
+                  className="text-blue-500 underline font-bold"
+                  to="/auth/register"
+                >
+                  Sign Up
+                </Link>{" "}
+                here
               </p>
             </div>
 
-            <button
-              onClick={handleGoogleSignIn}
-              className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3 mb-2"
-            >
+            <button className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3">
               <FcGoogle size={25} />
               Login with Google
             </button>
-            <button className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3 mb-4">
+            <button className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3">
               <FaGithub size={25} />
               Login with GitHub
             </button>
@@ -120,7 +78,6 @@ const Login = () => {
                 className="input"
                 name="email"
                 placeholder="Enter Email"
-                required
               />
               <label className="label text-gray-600">Password</label>
               <input
@@ -128,7 +85,6 @@ const Login = () => {
                 className="input"
                 name="password"
                 placeholder="Enter your password"
-                required
               />
               <div>
                 <a className="link link-hover text-gray-800">

@@ -1,5 +1,3 @@
-// src/pages/UpdateGroup.jsx
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import Swal from "sweetalert2";
@@ -55,7 +53,7 @@ const UpdateGroup = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-xl mx-auto bg-base-200 p-4 mt-5">
       <h2 className="text-2xl font-bold mb-4">Update Group</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {[

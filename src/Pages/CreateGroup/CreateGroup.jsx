@@ -49,8 +49,15 @@ const CreateGroup = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log("Server response:", data);
-         Swal.fire("Group created successfully!");
+        //  Swal.fire("Group created successfully!");
         // alert("Group created successfully!");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Group Create successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         form.reset();
       })
       .catch((error) => console.error("Error:", error));

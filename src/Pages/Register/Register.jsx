@@ -58,7 +58,14 @@ const Register = () => {
         })
           .then(() => {
             // alert("User registered successfully!");
-            Swal.fire("register success");
+            // Swal.fire("register Or success");
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "User registered successfully!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             navigate("/auth/login");
           })
           .catch((error) => {
