@@ -37,7 +37,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto my-6">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={30}

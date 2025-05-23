@@ -13,7 +13,6 @@ const MyGroups = () => {
       fetch(`http://localhost:5000/myGroups?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("Fetched groups:", data); 
           setMyGroups(data);
           setLoading(false);
         })
@@ -23,7 +22,6 @@ const MyGroups = () => {
         });
     }
   }, [user]);
- console.log(myGroups)
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -36,49 +34,37 @@ const MyGroups = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/groups/${id}`, { method: "DELETE" })
+        fetch(`http://localhost:5000/groups/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
               setMyGroups((prev) => prev.filter((group) => group._id !== id));
               Swal.fire("Deleted!", "Your group has been deleted.", "success");
             }
-          })
-          .catch((error) => {
-            console.log(error)
-            Swal.fire("Error", "Failed to delete group", "error");
           });
       }
     });
   };
 
-  if (loading) return (
-    <div className="flex justify-center items-center min-h-[200px]">
-      <span className="loading loading-bars loading-xl"></span>
-    </div>
-  );
+  if (loading) return <div className="text-center py-10">Loading...</div>;
 
   if (myGroups.length === 0)
     return (
-      <div className="flex flex-col items-center justify-center min-h-[300px] text-center  rounded-lg p-8 ">
+      <div className="text-center py-10">
         <h2 className="text-2xl font-bold text-blue-700 mb-2">
           No Groups Found
         </h2>
-        <p className="text-lg text-black">This time you have no data.</p>
-        <p className="text-lg text-black">
-          So, create your group and get started!
-        </p>
+        <p className="text-lg">Create a group to get started!</p>
       </div>
     );
-  
-  
 
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <h2 className="text-2xl font-bold mb-4">My Created Groups</h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
-          {/* head */}
           <thead>
             <tr>
               <th>#</th>
@@ -88,15 +74,13 @@ const MyGroups = () => {
               <th>Actions</th>
             </tr>
           </thead>
-
-          {/* Table */}
           <tbody>
             {myGroups.map((group, index) => (
               <tr key={group._id}>
                 <td>{index + 1}</td>
                 <td>{group.groupName}</td>
                 <td>{group.category}</td>
-                <td>{group.formattedDate}</td>
+                <td>{group.startDate}</td>
                 <td className="space-x-2">
                   <Link to={`/updateGroup/${group._id}`}>
                     <button className="btn btn-sm btn-info">Update</button>

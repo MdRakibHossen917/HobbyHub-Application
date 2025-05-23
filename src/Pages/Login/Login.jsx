@@ -1,21 +1,39 @@
 import React, { useContext, useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router"; 
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../Firebase/Firebase.config";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const { user, signIn } = useContext(AuthContext);
+  const provider = new GoogleAuthProvider();
 
   useEffect(() => {
-    // If the user is logged in, they will be automatically taken to the home page.
     if (user && user.email) {
       navigate("/");
     }
   }, [user, navigate]);
 
+  // Google signIn
+  const handleGoogleSignIn = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log("Google login:", result.user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.error("Google login error:", error);
+      });
+  };
+
+  // Email/Password Login
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -23,14 +41,15 @@ const Login = () => {
     const password = form.password.value;
 
     if (!email || !password) {
-      // alert("Please enter both email and password.");
+      Swal.fire("Please enter both email and password.");
       return;
     }
 
     signIn(email, password)
       .then(() => {
         Swal.fire("Login success").then(() => {
-          navigate("/");
+          const from = location.state?.from?.pathname || "/";
+          navigate(from, { replace: true });
         });
       })
       .catch((error) => {
@@ -45,15 +64,11 @@ const Login = () => {
       });
   };
 
-  // Click handler on signup link - SweetAlert will be displayed then go to Register page
   const handleSignUpClick = (e) => {
     e.preventDefault();
-
     if (!user || !user.email) {
-      //User logged out or no email, so navigate to the register page.
       navigate("/auth/register");
     } else {
-      // Already logged in, navigate to homepage
       navigate("/");
     }
   };
@@ -72,7 +87,7 @@ const Login = () => {
                   <>
                     Don't have an account? Please{" "}
                     <Link
-                      href="/auth/register"
+                      to="/auth/register"
                       className="text-blue-500 underline font-bold cursor-pointer"
                       onClick={handleSignUpClick}
                     >
@@ -86,7 +101,10 @@ const Login = () => {
               </p>
             </div>
 
-            <button className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3 mb-2">
+            <button
+              onClick={handleGoogleSignIn}
+              className="btn lg:w-80 bg-white text-black border border-[#e5e5e5] flex items-center gap-3 mb-2"
+            >
               <FcGoogle size={25} />
               Login with Google
             </button>
