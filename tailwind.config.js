@@ -1,13 +1,9 @@
-// import daisyui from "daisyui";
-
-// /** @type {import('tailwindcss').Config} */
+// // tailwind.config.js
 // export default {
+//   darkMode: "class", // IMPORTANT
 //   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 //   theme: {
 //     extend: {},
 //   },
-//   plugins: [daisyui],
-//   daisyui: {
-//     themes: ["light", "dark", "synthwave"],
-//   },
+//   plugins: [require("daisyui")],
 // };

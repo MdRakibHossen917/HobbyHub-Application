@@ -1,12 +1,14 @@
-import React  from "react";
+import React from "react";
 import Slider from "../../Components/Slider/Slider";
 import FeaturedGroups from "../../Components/FeaturedGroups/FeaturedGroups";
 import { Typewriter } from "react-simple-typewriter";
- 
+
+
 
 const Home = () => {
-  
-  return ( 
+
+
+  return (
     <div className="space-y-16">
       {/* Banner / Slider */}
       <Slider />
@@ -17,6 +19,7 @@ const Home = () => {
           🌟 Featured Groups
         </h2>
         <FeaturedGroups />
+       
       </section>
 
       {/* How It Works */}

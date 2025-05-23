@@ -1,21 +1,22 @@
-import React from 'react';
-import Navbar from '../Components/Navbar/Navbar';
-import { Outlet } from 'react-router';
-import Footer from '../Components/Footer/Footer';
- 
- 
+import React from "react";
+import Navbar from "../Components/Navbar/Navbar";
+import { Outlet } from "react-router";
+import Footer from "../Components/Footer/Footer";
 
 const RootLayout = () => {
-    
-    return (
-      <div>
-        <Navbar></Navbar>
-        
-          <Outlet></Outlet>
-        
-        <Footer></Footer>
+  const outletHeight = `calc(100vh - 64.95px - 103.99px)`;
+
+  return (
+    <div className="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen">
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main style={{ height: outletHeight, overflowY: "auto" }}>
+          <Outlet />
+        </main>
+        <Footer />
       </div>
-    );
+    </div>
+  );
 };
 
 export default RootLayout;
