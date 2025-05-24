@@ -26,7 +26,9 @@ export const router = createBrowserRouter([
       {
         path: "/allGroups",
         loader: () =>
-          fetch("http://localhost:5000/createGroup").then((res) => res.json()),
+          fetch("https://hobbyhub-server-steel.vercel.app/createGroup").then(
+            (res) => res.json()
+          ),
         element: <AllGroups />,
       },
       { path: "/group/:id", element: <GroupDetails /> },

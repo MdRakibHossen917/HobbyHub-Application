@@ -10,7 +10,9 @@ const MyGroups = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/myGroups?email=${user.email}`)
+      fetch(
+        `https://hobbyhub-server-steel.vercel.app/myGroups?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setMyGroups(data);
@@ -34,7 +36,7 @@ const MyGroups = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/groups/${id}`, {
+        fetch(`https://hobbyhub-server-steel.vercel.app/groups/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

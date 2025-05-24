@@ -6,7 +6,7 @@ const TodaysGroups = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/todaysGroups") // your server URL
+    fetch("https://hobbyhub-server-steel.vercel.app/todaysGroups") // your server URL
       .then((res) => res.json())
       .then((data) => {
         setGroups(data);

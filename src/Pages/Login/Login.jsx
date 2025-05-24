@@ -26,7 +26,7 @@ const Login = () => {
       .then((result) => {
         console.log(result)
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "Google Login Successful",
           showConfirmButton: false,

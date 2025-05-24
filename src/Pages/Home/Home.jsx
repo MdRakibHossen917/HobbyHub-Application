@@ -9,7 +9,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/todaysGroups")
+    fetch("https://hobbyhub-server-steel.vercel.app/todaysGroups")
       .then((res) => res.json())
       .then((data) => {
         setTodayGroups(data);
@@ -29,7 +29,7 @@ const Home = () => {
       {/* Today’s Groups */}
       <section className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">
-          📅 Today's Created Groups
+          🎉 Explore Fresh Hobby Circles
         </h2>
 
         {loading ? (

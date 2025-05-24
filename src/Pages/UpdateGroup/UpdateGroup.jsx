@@ -17,7 +17,7 @@ const UpdateGroup = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/groups/${id}`)
+    fetch(`https://hobbyhub-server-steel.vercel.app/groups/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setFormData({
@@ -38,7 +38,7 @@ const UpdateGroup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/groups/${id}`, {
+    fetch(`https://hobbyhub-server-steel.vercel.app/groups/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

@@ -41,7 +41,7 @@ const CreateGroup = () => {
 
     console.log("Sending:", groupData);
 
-    fetch("http://localhost:5000/createGroup", {
+    fetch("https://hobbyhub-server-steel.vercel.app/createGroup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(groupData),
